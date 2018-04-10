@@ -20,6 +20,24 @@ use App\Proxy\ConsultaEstoque\movPeriodo;
 use App\Proxy\ConsultaEstoque\movProduto;
 use App\Proxy\ConsultaEstoque\produtos;
 
+use App\Proxy\ClienteCadastro\ClienteCadastroProxy;
+use App\Proxy\ClienteCadastro\clientes_list_request;
+use App\Proxy\ClienteCadastro\clientes_list_response;
+use App\Proxy\ClienteCadastro\clientes_listfull_response;
+use App\Proxy\ClienteCadastro\clientes_cadastro;
+
+use App\Proxy\ClientesTags\ClientesTagsProxy;
+use App\Proxy\ClientesTags\cTagListarRequest;
+use App\Proxy\ClientesTags\cTagListarResponse;
+use App\Proxy\ClientesTags\tags;
+use App\Proxy\ClientesTags\tagsLista;
+
+use App\Proxy\CategoriasCadastro\CategoriasCadastroProxy;
+use App\Proxy\CategoriasCadastro\categoria_cadastro;
+use App\Proxy\CategoriasCadastro\categoria_consultar;
+use App\Proxy\CategoriasCadastro\categoria_list_request;
+use App\Proxy\CategoriasCadastro\categoria_listfull_response;
+
 class HomeController extends Controller
 {
     /**
@@ -67,5 +85,46 @@ class HomeController extends Controller
         $resp = $consulta->MovimentoEstoque($req);
         
         return json_encode($resp);
+    }
+    
+    public function listarclientes()
+    {
+        $proxy = new ClienteCadastroProxy();
+        $req = new clientes_list_request();
+        
+        $req->apenas_importado_api = 'N';
+        $req->pagina = 1;
+        $req->registros_por_pagina = 50;
+        
+        $resp = $proxy->ListarClientes($req);
+        $cad = $resp->clientes_cadastro;
+        
+        return view('clientes', ['cadastros' => $cad,]);
+    }
+    
+    public function listarCategorias()
+    {
+        $proxy = new CategoriasCadastroProxy();
+        $req = new categoria_list_request();
+        
+        $req->apenas_importado_api = 'N';
+        $req->pagina = 1;
+        $req->registros_por_pagina = 50;
+        
+        
+        $resp = $proxy->ListarCategorias($req);
+        $cad = $resp->categoria_cadastro;
+        return view('categorias', ['registros' => $cad,]);
+    }
+
+        public function getTag()
+    {
+        $proxy = new ClientesTagsProxy();
+        $req = new cTagListarRequest();
+        $req->nCodCliente = 500793075;
+        
+        $resp = $proxy->ListarTags($req);
+        $cad = $resp->tagsLista;
+        return view('tags', ['tags' => $cad,]);
     }
 }

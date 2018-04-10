@@ -55,4 +55,26 @@
     </div>
 </div>
 </div>
+<?php 
+//$i = $loop->index; 
+$data = date_create();
+echo date_format($data, 'd/m/Y') . ' data atual';
+$data7 = $data;
+echo '<br>';
+$i = new DateInterval('P7D');
+date_add($data7, $i);
+echo date_format($data7, 'd/m/Y'). ' data incrementada em 7 dias';
+$data15 = date_create();
+echo '<br>';
+$i15 = new DateInterval('P15D');
+date_add($data15, $i15);
+echo date_format($data15, 'd/m/Y'). ' data incrementada em 15 dias';
+
+$datax = date_create();
+$dias = 30;
+echo '<br>';
+$ix = new DateInterval('P'.$dias.'D');
+date_add($datax, $ix);
+echo date_format($datax, 'd/m/Y'). ' data incrementada em '.$dias.' dias';
+?>
 @endsection

@@ -21,7 +21,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/movimentos', 'HomeController@movimentos');
 
+Route::get('/clientes', 'HomeController@listarclientes');
+
 Route::get('/consultaestoque', 'HomeController@consultaestoque');
+
+Route::get('/tags', 'HomeController@getTag');
+
+Route::get('/categorias', 'HomeController@listarCategorias');
 
 Route::get('/redirect', function () {
     $query = http_build_query([
